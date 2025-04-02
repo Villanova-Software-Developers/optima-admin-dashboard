@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     //login func
-    const loginAdmin = async (ElementInternals, password) => {
+    const loginAdmin = async (email, password) => {
         setLoading(true);
         setError(null);
         try {
