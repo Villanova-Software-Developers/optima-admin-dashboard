@@ -42,7 +42,7 @@ const Login = () => {
         const errors = {};
         if (!formData.email) {
             errors.email = 'Email is required';
-        } else if (!/\S+@\.\S+/.test(formData.email)) {
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
             errors.email = 'Email is invalid';
         }
         if (!formData.password) {
