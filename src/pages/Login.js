@@ -155,4 +155,6 @@ const Login = () => {
         </Grid>
     </Grid>
     )
-}
+};
+
+export default Login;

@@ -1,39 +1,38 @@
 // src/pages/UserDetail.js
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import BlockIcon from '@mui/icons-material/Block';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import WarningIcon from '@mui/icons-material/Warning';
 import {
-  Container,
-  Typography,
   Box,
-  Paper,
-  Grid,
-  CircularProgress,
-  Divider,
   Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Chip,
+  CircularProgress,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  TextField,
-  Chip,
-  Card,
-  CardContent,
-  CardHeader,
+  Divider,
+  Grid,
+  List,
   ListItem,
   ListItemText,
-  List
+  Paper,
+  TextField,
+  Typography
 } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import PersonIcon from '@mui/icons-material/Person';
-import WarningIcon from '@mui/icons-material/Warning';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import BlockIcon from '@mui/icons-material/Block';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { deletePost, updatePostContent } from '../api/posts';
+import { deleteUser, getUserDetails, suspendUser } from '../api/users';
+import AlertMessage from '../components/common/AlertMessage';
 import Layout from '../components/common/Layout';
 import UserPosts from '../components/users/UserPosts';
-import AlertMessage from '../components/common/AlertMessage';
-import { getUserDetails, suspendUser, deleteUser } from '../api/users';
-import { deletePost, updatePostContent } from '../api/posts';
 import { formatDate } from '../utils/format';
 
 const UserDetail = () => {

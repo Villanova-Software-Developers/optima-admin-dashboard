@@ -1,33 +1,33 @@
 // src/pages/PostDetail.js
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
-  Container,
-  Typography,
   Box,
-  Paper,
-  CircularProgress,
-  Divider,
   Button,
   Card,
   CardContent,
   CardHeader,
-  TextField,
+  Chip,
+  CircularProgress,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Chip,
-  Grid
+  Divider,
+  Grid,
+  Paper,
+  TextField,
+  Typography
 } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { deletePost, getPostDetails, updatePostContent } from '../api/posts';
+import AlertMessage from '../components/common/AlertMessage';
 import Layout from '../components/common/Layout';
 import CommentsList from '../components/posts/CommentsList';
-import AlertMessage from '../components/common/AlertMessage';
-import { getPostDetails, updatePostContent, deletePost } from '../api/posts';
 import { formatDate } from '../utils/format';
 
 const PostDetail = () => {

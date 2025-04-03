@@ -1,6 +1,5 @@
-import React, { createContext, useState, useContext, useEffect, Children } from 'react';
-import { login, register, getProfile } from '../api/auth';
-import { UNSAFE_ErrorResponseImpl } from 'react-router-dom';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { getProfile, login, register } from '../api/auth';
 
 const AuthContext = createContext();
 

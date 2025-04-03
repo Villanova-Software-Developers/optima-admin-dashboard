@@ -1,16 +1,14 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
+import AdminLogs from './pages/AdminLogs';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
-import Register from './pages/Register';
-import Users from './pages/Users';
-import UserDetail from './pages/UserDetail';
-import Posts from './pages/Posts';
 import PostDetail from './pages/PostDetail';
-import AdminLogs from './pages/AdminLogs';
-import { elements } from 'chart.js';
-import { radioGroupClasses } from '@mui/material';
+import Posts from './pages/Posts';
+import Register from './pages/Register';
+import UserDetail from './pages/UserDetail';
+import Users from './pages/Users';
 
 const routes = (isAuthenticated) => [
     {

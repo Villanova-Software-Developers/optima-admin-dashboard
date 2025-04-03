@@ -1,7 +1,6 @@
-import React from 'react';
-import { Box, Button, Typography } from '@mui/material';
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Box, Button, Typography } from '@mui/material';
+import React from 'react';
 
 const Pagination = ({ 
   hasMore, 

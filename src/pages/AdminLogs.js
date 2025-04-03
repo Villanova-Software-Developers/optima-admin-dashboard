@@ -1,9 +1,10 @@
 // src/pages/AdminLogs.js
-import React, { useState, useEffect } from 'react';
 import {
-  Container,
-  Typography,
   Box,
+  Button,
+  Chip,
+  CircularProgress,
+  Container,
   Paper,
   Table,
   TableBody,
@@ -11,15 +12,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  CircularProgress,
-  Chip,
-  Button,
-  Divider
+  Typography
 } from '@mui/material';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import Layout from '../components/common/Layout';
-import AlertMessage from '../components/common/AlertMessage';
+import React, { useEffect, useState } from 'react';
 import { getAdminLogs } from '../api/logs';
+import AlertMessage from '../components/common/AlertMessage';
+import Layout from '../components/common/Layout';
 import { formatDate } from '../utils/format';
 
 // Action type to display color mapping

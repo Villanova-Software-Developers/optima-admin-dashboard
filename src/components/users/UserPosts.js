@@ -1,22 +1,22 @@
 // src/components/users/UserPosts.js
-import React from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
+  Box,
   Card,
-  CardHeader,
   CardContent,
+  CardHeader,
+  Chip,
+  Divider,
+  IconButton,
   List,
   ListItem,
   ListItemText,
-  Divider,
-  Typography,
-  Box,
-  Chip,
-  IconButton,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { formatDate, truncateText } from '../../utils/format';
+import React from 'react';
+import { formatDate } from '../../utils/format';
 
 const UserPosts = ({ posts = [], onEdit, onDelete }) => {
   return (
