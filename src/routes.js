@@ -9,6 +9,7 @@ import Posts from './pages/Posts';
 import Register from './pages/Register';
 import UserDetail from './pages/UserDetail';
 import Users from './pages/Users';
+import CommunityTasks from './pages/CommunityTasks';
 
 const routes = (isAuthenticated) => [
     {
@@ -46,6 +47,10 @@ const routes = (isAuthenticated) => [
     {
         path: '*',
         element: <Navigate to='/' />,
+    },
+    {
+        path: '/community-tasks',
+        element: isAuthenticated ? <CommunityTasks /> : <Navigate to='/login' />,
     }
 ];
 

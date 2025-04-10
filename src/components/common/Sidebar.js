@@ -1,4 +1,4 @@
-// src/components/common/Sidebar.js
+import GroupWorkIcon from '@mui/icons-material/GroupWork'
 import ArticleIcon from '@mui/icons-material/Article';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import HistoryIcon from '@mui/icons-material/History';
@@ -39,6 +39,11 @@ const menuItems = [
     label: 'Admin Logs', 
     path: '/logs', 
     icon: <HistoryIcon /> 
+  },
+  {
+    label: 'Community Tasks',
+    path: '/community-tasks',
+    icon: <GroupWorkIcon />
   }
 ];
 
