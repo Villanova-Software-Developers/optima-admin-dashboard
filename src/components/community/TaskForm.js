@@ -36,6 +36,7 @@ const TaskForm = ({ onTaskCreated }) => {
         setLoadingCategories(true);
         const response = await getTaskCategories();
         if (response.success) {
+          console.log("Categories from API:", response.categories);
           setCategories(response.categories || []);
         }
       } catch (error) {
@@ -76,7 +77,7 @@ const TaskForm = ({ onTaskCreated }) => {
       newErrors.title = 'Title is required';
     }
     
-    if (!formData.category.trim()) {
+    if (!formData.category) {
       newErrors.category = 'Category is required';
     }
     
@@ -166,13 +167,16 @@ const TaskForm = ({ onTaskCreated }) => {
     setAlert({ ...alert, open: false });
   };
 
-  // Format date as DD/MM/YYYY HH:MM for API
   const formatDateForAPI = (date) => {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+    // Ensure we have a valid date object
+    const d = new Date(date);
+    
+    // Format in local time (preserves user's intended time)
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
     
     return `${day}/${month}/${year} ${hours}:${minutes}`;
   };
@@ -223,23 +227,24 @@ const TaskForm = ({ onTaskCreated }) => {
             label="Category"
             disabled={loading || loadingCategories}
           >
-            {loadingCategories ? (
+            {loadingCategories ? 
               <MenuItem value="">
                 <CircularProgress size={20} sx={{ mr: 1 }} />
                 Loading categories...
               </MenuItem>
-            ) : (
-              <>
-                <MenuItem value="" disabled>
-                  Select a category
+            : [
+              <MenuItem key="select-placeholder" value="" disabled>
+                Select a category
+              </MenuItem>,
+              ...categories.map((category) => (
+                <MenuItem 
+                  key={category.id || category.category_name} 
+                  value={category.id || category.category_name}
+                >
+                  {category.category_name}
                 </MenuItem>
-                {categories.map((category) => (
-                  <MenuItem key={category.id} value={category.id || category.category_name}>
-                    {category.category_name}
-                  </MenuItem>
-                ))}
-              </>
-            )}
+              ))
+            ]}
           </Select>
           {errors.category && (
             <Typography variant="caption" color="error">

@@ -1,4 +1,3 @@
-// src/utils/format.js
 export const formatDate = (dateString) => {
     if (!dateString) return '';
     

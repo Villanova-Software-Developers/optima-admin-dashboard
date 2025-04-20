@@ -25,7 +25,7 @@ export const getCommunityTaskDetails = async (taskId) => {
 
 export const createCommunityTask = async (taskData) => {
     try {
-        const response = await api.put(`/admin/community-tasks`, taskData);
+        const response = await api.post(`/admin/community-tasks`, taskData);
         return response.data;
     } catch (error) {
         throw error;
