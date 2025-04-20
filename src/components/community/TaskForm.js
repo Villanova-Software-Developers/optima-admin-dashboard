@@ -1,13 +1,17 @@
-// src/components/community/TaskForm.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
   TextField,
   Typography,
-  Paper
+  Paper,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  CircularProgress
 } from '@mui/material';
-import { createCommunityTask } from '../../api/community';
+import { createCommunityTask, getTaskCategories } from '../../api/community';
 import AlertMessage from '../common/AlertMessage';
 
 const TaskForm = ({ onTaskCreated }) => {
@@ -19,9 +23,35 @@ const TaskForm = ({ onTaskCreated }) => {
     deadlineTime: ''
   });
   
+  const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ open: false, message: '', severity: 'info' });
+
+  // Fetch categories on component mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setLoadingCategories(true);
+        const response = await getTaskCategories();
+        if (response.success) {
+          setCategories(response.categories || []);
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setAlert({
+          open: true,
+          message: 'Failed to load categories. Please try refreshing the page.',
+          severity: 'error'
+        });
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -177,20 +207,46 @@ const TaskForm = ({ onTaskCreated }) => {
           required
         />
         
-        <TextField
-          fullWidth
-          margin="normal"
-          id="category"
-          name="category"
-          label="Category"
-          value={formData.category}
-          onChange={handleChange}
+        <FormControl 
+          fullWidth 
+          margin="normal" 
           error={!!errors.category}
-          helperText={errors.category}
-          disabled={loading}
           required
-          placeholder="e.g. Physical Activity, Learning, Social, etc."
-        />
+        >
+          <InputLabel id="category-label">Category</InputLabel>
+          <Select
+            labelId="category-label"
+            id="category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            label="Category"
+            disabled={loading || loadingCategories}
+          >
+            {loadingCategories ? (
+              <MenuItem value="">
+                <CircularProgress size={20} sx={{ mr: 1 }} />
+                Loading categories...
+              </MenuItem>
+            ) : (
+              <>
+                <MenuItem value="" disabled>
+                  Select a category
+                </MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category.id} value={category.id || category.category_name}>
+                    {category.category_name}
+                  </MenuItem>
+                ))}
+              </>
+            )}
+          </Select>
+          {errors.category && (
+            <Typography variant="caption" color="error">
+              {errors.category}
+            </Typography>
+          )}
+        </FormControl>
         
         <TextField
           fullWidth
