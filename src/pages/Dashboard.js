@@ -1,30 +1,37 @@
-// src/pages/Dashboard.js
 import React, { useState, useEffect } from 'react';
 import { 
   Grid, 
   Container, 
   Typography, 
   Box, 
-  CircularProgress 
+  CircularProgress,
+  Divider,
+  Paper
 } from '@mui/material';
 import PeopleIcon from '@mui/icons-material/People';
 import ArticleIcon from '@mui/icons-material/Article';
 import CommentIcon from '@mui/icons-material/Comment';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import Layout from '../components/common/Layout';
 import StatCard from '../components/dashboard/StatCard';
 import UserActivity from '../components/dashboard/UserActivity';
 import RecentPosts from '../components/dashboard/RecentPosts';
+import TaskStatsCard from '../components/community/TaskStatsCard';
 import { getSummaryAnalysis } from '../api/analytics';
 import { getUsers } from '../api/users';
 import { getPosts } from '../api/posts';
+import { getCommunityTaskStats } from '../api/community';
 import AlertMessage from '../components/common/AlertMessage';
 
 const Dashboard = () => {
   const [analytics, setAnalytics] = useState(null);
+  const [taskStats, setTaskStats] = useState(null);
   const [recentUsers, setRecentUsers] = useState([]);
   const [recentPosts, setRecentPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [taskStatsLoading, setTaskStatsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -51,8 +58,26 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
+    
+    const fetchTaskStats = async () => {
+      try {
+        setTaskStatsLoading(true);
+        
+        // Fetch community task stats
+        const response = await getCommunityTaskStats();
+        if (response.success) {
+          setTaskStats(response.stats || null);
+        }
+      } catch (err) {
+        console.error('Error fetching community task stats:', err);
+        // Don't set main error for task stats
+      } finally {
+        setTaskStatsLoading(false);
+      }
+    };
 
     fetchDashboardData();
+    fetchTaskStats();
   }, []);
 
   const handleCloseAlert = () => {
@@ -108,14 +133,19 @@ const Dashboard = () => {
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <StatCard 
-                  title="User Growth"
-                  value={`${analytics?.new_users ? Math.round((analytics.new_users / analytics.total_users) * 100) : 0}%`}
-                  icon={<TrendingUpIcon />}
-                  description={`In the last ${analytics?.period_days || 30} days`}
-                  color="#f44336"
+                  title="Community Tasks"
+                  value={taskStats?.total_tasks || 0}
+                  icon={<GroupWorkIcon />}
+                  description={`${taskStats?.active_tasks || 0} active tasks`}
+                  color="#9c27b0"
                 />
               </Grid>
             </Grid>
+
+            {/* Community Tasks Stats */}
+            <Box sx={{ mb: 4 }}>
+              <TaskStatsCard stats={taskStats} loading={taskStatsLoading} />
+            </Box>
 
             {/* Recent Activity & Posts */}
             <Grid container spacing={3}>

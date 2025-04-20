@@ -10,6 +10,8 @@ import Register from './pages/Register';
 import UserDetail from './pages/UserDetail';
 import Users from './pages/Users';
 import CommunityTasks from './pages/CommunityTasks';
+import TaskDetail from './pages/TaskDetail';
+import Categories from './pages/Categories';
 
 const routes = (isAuthenticated) => [
     {
@@ -45,12 +47,20 @@ const routes = (isAuthenticated) => [
         element: isAuthenticated ? <AdminLogs /> : <Navigate to='/login' />,
     },
     {
-        path: '*',
-        element: <Navigate to='/' />,
-    },
-    {
         path: '/community-tasks',
         element: isAuthenticated ? <CommunityTasks /> : <Navigate to='/login' />,
+    },
+    {
+        path: '/community-tasks/:taskId',
+        element: isAuthenticated ? <TaskDetail /> : <Navigate to='/login' />,
+    },
+    {
+        path: '/categories',
+        element: isAuthenticated ? <Categories /> : <Navigate to='/login' />,
+    },
+    {
+        path: '*',
+        element: <Navigate to='/' />,
     }
 ];
 
